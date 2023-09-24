@@ -15,6 +15,6 @@ func Startserver() {
 	http.Handle("/analysis", Protect(http.HandlerFunc(routes.Analysis)))
 
 	//--------------- start server and print error ---------------//
-	fmt.Println(http.ListenAndServe(":8080", nil)) //TODO cors handler
+	fmt.Println(http.ListenAndServe(":8080", nil)) 
 
 }

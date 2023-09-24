@@ -19,10 +19,12 @@ func TestRouteAnalysis(t *testing.T) {
 		Status int
 	}
 	mapRequestResult := make(map[*http.Request]expextedResult)
+	urlCorrectRoute := "http://localhost:8080/analysis"
+	urlWrongRoute := "http://localhost:8080/analysis"
 
 	// ---------  write all request to test --------- //
 	// valid request with time in Second
-	requestSecond, _ := http.NewRequest("GET", "http://localhost:8080/analysis", nil)
+	requestSecond, _ := http.NewRequest("GET", urlCorrectRoute, nil)
 	query := requestSecond.URL.Query()
 	query.Add("dimension", "likes")
 	query.Add("duration", "5s")
@@ -33,7 +35,7 @@ func TestRouteAnalysis(t *testing.T) {
 	}
 
 	// valid request with time in Minute
-	requestMinute, _ := http.NewRequest("GET", "http://localhost:8080/analysis", nil)
+	requestMinute, _ := http.NewRequest("GET", urlCorrectRoute, nil)
 	query = requestMinute.URL.Query()
 	query.Add("dimension", "likes")
 	query.Add("duration", "1m")
@@ -45,7 +47,7 @@ func TestRouteAnalysis(t *testing.T) {
 
 	// // Commented because 1h for a test is a bit too long
 	// // valid request with time in Hours
-	// requestHours, _ := http.NewRequest("GET", "http://localhost:8080/analysis", nil)
+	// requestHours, _ := http.NewRequest("GET", urlCorrectRoute, nil)
 	// query = requestHours.URL.Query()
 	// query.Add("dimension", "likes")
 	// query.Add("duration", "1h")
@@ -55,12 +57,12 @@ func TestRouteAnalysis(t *testing.T) {
 	// }
 
 	// request wrong route
-	requestWrongRoute, _ := http.NewRequest("GET", "http://localhost:8080/wrongroute", nil)
+	requestWrongRoute, _ := http.NewRequest("GET", urlWrongRoute, nil)
 	mapRequestResult[requestWrongRoute] = expextedResult{
 		Status: 404,
 	}
 	// request wrong Methode
-	requestWrongMethode, _ := http.NewRequest("POST", "http://localhost:8080/analysis", nil)
+	requestWrongMethode, _ := http.NewRequest("POST", urlCorrectRoute, nil)
 	mapRequestResult[requestWrongMethode] = expextedResult{
 		Status: 404,
 	}
